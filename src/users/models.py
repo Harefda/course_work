@@ -8,7 +8,7 @@ from django.db import models
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, image=None, password=None, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, email, password=None, is_active=True, is_staff=False, is_admin=False):
         if not password:
             raise ValueError("User must have a password")
         if not email:
@@ -18,7 +18,6 @@ class UserManager(BaseUserManager):
 
         user = self.model(
             email=email,
-            image=image,
         )
         user.set_password(password)
         user.is_staff = is_staff
@@ -68,3 +67,17 @@ class User(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+
+class HockeyPlayer(models.Model):
+    name = models.CharField(max_length=30)
+    second_name = models.CharField(max_length=30)
+    patronymic = models.CharField(max_length=30)
+    birthday = models.DateTimeField()
+    abandoned_pucks = models.IntegerField()
+    passes = models.IntegerField()
+    penalty_minutes = models.IntegerField()
+
+    class Meta:
+        verbose_name = ("Hockey player")
+        verbose_name_plural = ("Hockey players")
