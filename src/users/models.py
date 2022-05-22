@@ -1,5 +1,4 @@
 from django.contrib.auth.models import (
-
     AbstractBaseUser,
     BaseUserManager,
 )
@@ -81,3 +80,6 @@ class HockeyPlayer(models.Model):
     class Meta:
         verbose_name = ("Hockey player")
         verbose_name_plural = ("Hockey players")
+
+    def __str__(self):
+        return f"<{self.second_name} {self.name} {self.patronymic}>"

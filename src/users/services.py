@@ -2,12 +2,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django.contrib.auth import authenticate
 
-from users.models import User
+from users.models import User, HockeyPlayer
 from users.utils import UserErrorMessages
-from app.errors import (
-    ValidationError,
-    ObjectAlreadyExists
-)
+from app.errors import ValidationError, ObjectAlreadyExists
 
 
 class UserCreator:
@@ -41,11 +38,11 @@ class UserCreator:
 
         return True
 
+
 class UserToolKit:
     @classmethod
     def create_user(cls, username, password):
-        user = UserCreator(password=password, username=username)()
-        return user
+        return UserCreator(password=password, username=username)()
 
     @classmethod
     def authenticate_user(cls, email, password):
@@ -60,4 +57,72 @@ class UserToolKit:
 
 
 class HockeyPlayerCreator:
-    def __init__(self, )
+    def __init__(
+        self,
+        name,
+        second_name,
+        patronymic,
+        birthday,
+        abandoned_pucks,
+        passes,
+        penalty_minutes,
+    ):
+        self.name = name
+        self.second_name = second_name
+        self.patronymic = patronymic
+        self.birthday = birthday
+        self.abandoned_pucks = abandoned_pucks
+        self.passes = passes
+        self.penalty_minutes = penalty_minutes
+
+    def __call__(self):
+        if self.allowed_to_create():
+            hockey_player = self.create()
+            hockey_player.save()
+            return hockey_player
+        else:
+            return None
+
+    def create(self):
+        return HockeyPlayer.objects.create(
+            name=self.name,
+            second_name=self.second_name,
+            patronymic=self.patronymic,
+            birthday=self.birthday,
+            abandoned_pucks=self.abandoned_pucks,
+            passes=self.passes,
+            penalty_minutes=self.penalty_minutes,
+        )
+
+    def allowed_to_create(self):
+        if HockeyPlayer.objects.filter(name=self.name).exists():
+            raise ObjectAlreadyExists
+
+        return True
+
+
+class HockeyPlayerToolKit:
+    @classmethod
+    def create(
+        cls,
+        name,
+        second_name,
+        patronymic,
+        birthday,
+        abandoned_pucks,
+        passes,
+        penalty_minutes,
+    ):
+        return HockeyPlayerCreator(
+            name=name,
+            second_name=second_name,
+            patronymic=patronymic,
+            birthday=birthday,
+            abandoned_pucks=abandoned_pucks,
+            passes=passes,
+            penalty_minutes=penalty_minutes,
+        )()
+
+
+# def get_6_best_hockey_players(*args, **kwargs):
+#     return HockeyPlayer.objects.filter('+passes', '+abandoned_pucks')

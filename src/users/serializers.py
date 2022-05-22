@@ -6,14 +6,18 @@ from users.models import User, HockeyPlayer
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = [
-            'email'
-        ]
+        fields = ["email"]
 
 
 class HockeyPlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = HockeyPlayer
         fields = [
-            '__all__'
+            "name",
+            "second_name",
+            "patronymic",
+            "birthday",
+            "abandoned_pucks",
+            "passes",
+            "penalty_minutes",
         ]
