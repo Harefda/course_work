@@ -57,3 +57,7 @@ class UserToolKit:
             raise ValidationError(UserErrorMessages.CREDENTIALS_ERROR.value)
 
         return user, Token.objects.get_or_create(user=user)[0]
+
+
+class HockeyPlayerCreator:
+    def __init__(self, )

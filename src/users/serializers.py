@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from users.models import User
+from users.models import User, HockeyPlayer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,4 +8,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = [
             'email'
+        ]
+
+
+class HockeyPlayerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HockeyPlayer
+        fields = [
+            '__all__'
         ]
