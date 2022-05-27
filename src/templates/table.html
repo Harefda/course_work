@@ -1,0 +1,33 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Ф.И.О</th>
+        <th scope="col">Дата рождения</th>
+        <th scope="col">Количество забитых шайб</th>
+        <th scope="col">Количество передач</th>
+        <th scope="col">Общее время пенальти</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for player in players %}
+      <tr>
+        <th scope="row"></th>
+        <td>
+            {{player.second_name}}
+            {{player.name}}
+            {{player.patronymic}}
+        </td>
+        <td>{{player.birthday}}</td>
+        <td>{{player.abandoned_pucks}}</td>
+        <td>{{player.passes}}</td>
+        <td>{{player.penalty_minutes}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
